@@ -1,0 +1,8 @@
+# These aren't mine!
+node_modules
+
+# don't track output
+dist
+
+# or files cached during parceljs's builds
+.cache

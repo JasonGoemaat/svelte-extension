@@ -1,0 +1,28 @@
+{
+  "name": "svelt-extension",
+  "version": "1.0.0",
+  "description": "Sample Chrome extension using svelt",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel src/index.html",
+    "prebuild": "rimraf dist",
+    "build": "parcel build src/manifest.json src/index.html",
+    "build-public": "parcel build src/manifest.json src/index.html --public-url file:///c:/git/svelte-extension/dist",
+    "build2": "parcel build --root-dir file:///c:/svelte-extension/dist src/manifest.json src/index.html",
+    "build-no-sourcemap": "parcel build --no-source-maps src/manifest.json src/index.html",
+    "watch-public-url": "parcel watch --no-hmr --public-url file:///c:/git/svelte-extension/dist src/manifest.json src/index.html",
+    "watch": "parcel watch --no-hmr src/manifest.json src/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-svelte": "^4.0.6",
+    "parcel-plugin-web-extension": "^1.6.1",
+    "sass": "^1.26.5",
+    "svelte": "^3.21.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {}
+}

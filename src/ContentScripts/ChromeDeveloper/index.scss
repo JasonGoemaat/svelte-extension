@@ -1,0 +1,54 @@
+// this is a separate CSS so it can change the styles on the page
+main#gc-pagecontent {
+    border: solid 2px red;
+}
+
+div.content-script-host {
+    background-color: white;
+    border: solic 1px transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: inline-block;
+    padding: 6px;
+    border-radius: 8px;
+
+    & div.toggle {
+        & button {
+            //background: none!important;
+            background-color: #ccf !important;
+            border: solid 1px blue !important;
+            padding: 5px !important;
+            color: #069;
+            cursor: pointer;
+        }
+    }
+
+    & .cs-content {
+        border: solid 1px darkblue;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 2px 2px 2px 1px #bbb;
+        padding: 4px 10px;
+
+        position: absolute;
+        display: none;
+        top: 40px;
+        left: 5px;
+        min-width: 400px;
+
+        &.cs-visible {
+            display: inline-block;
+        }
+
+        & .heading {
+            padding: 0;
+            margin: 0;
+        }
+    }
+
+    & div.toggle {
+
+    }
+}

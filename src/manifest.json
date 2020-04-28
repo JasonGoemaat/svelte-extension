@@ -1,0 +1,36 @@
+{
+    "manifest_version": 2,
+    "name": "Svelte Extension",
+    "description": "This extension is a starting point to create a real Chrome extension using Svelte",
+    "version": "0.0.1",
+    "browser_action": {
+      "default_popup": "popup.html",
+      "default_title": "Open the popup"
+    },
+    "background": {
+        "scripts": [
+            "./Background/index.ts"
+        ],
+        "persistent": false
+    },
+    "icons": {
+      "16": "images/logo128.png",
+      "48": "images/logo128.png",
+      "128": "images/logo128.png"
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://developer.chrome.com/*"],
+        "js": ["ContentScripts/ChromeDeveloper/index.js"],
+        "css": ["ContentScripts/ChromeDeveloper/index.scss"]
+      }
+    ],
+    "chrome_url_overrides" : {
+      "newtab": "Pages/newtab.html"
+    },
+    "permissions": [
+      "activeTab",
+      "geolocation",
+      "*://www.metaweather.com/*"
+    ]
+  }
