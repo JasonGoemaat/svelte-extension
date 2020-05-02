@@ -1,6 +1,6 @@
-console.log('newtab - index.js');
+console.log('popup - index.js');
 
-import App from './newtab.svelte';
+import App from './Auth.svelte';
 
 const app = new App({
   target: document.body,

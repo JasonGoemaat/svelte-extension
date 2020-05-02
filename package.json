@@ -24,5 +24,7 @@
     "svelte": "^3.21.0",
     "typescript": "^3.8.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@types/chrome": "^0.0.106"
+  }
 }

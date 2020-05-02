@@ -1,6 +1,6 @@
-console.log('newtab - index.js');
+console.log('options - index.js');
 
-import App from './newtab.svelte';
+import App from './Options.svelte';
 
 const app = new App({
   target: document.body,

@@ -30,7 +30,9 @@
     },
     "permissions": [
       "activeTab",
+      "webNavigation",
       "geolocation",
-      "*://www.metaweather.com/*"
+      "unlimitedStorage",
+      "*://*/*"
     ]
   }

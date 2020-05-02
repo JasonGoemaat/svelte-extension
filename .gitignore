@@ -6,3 +6,10 @@ dist
 
 # or files cached during parceljs's builds
 .cache
+
+# key files, compiled extension CRX
+private
+*.pem
+
+# private settings
+.env
