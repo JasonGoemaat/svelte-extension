@@ -1,24 +1,20 @@
-// see, it's typescript!  Parcel doesn't throw type errors by default,
+import { getAsset, getAssetsForUrl, getInjectionsForUrl, injectAsset } from "./sitedb";
 
 // but it will let you compile it.
 const style: string = 'background-color: blue; color: white; font-size: large; border-radius: 9px; padding: 2px 6px';
 
-console.log('%cBACKGROUND SCRIPT%c running (update 1)', style, '');
+import './injections.ts'
 
-// works: //# sourceMappingURL=http://localhost:8080/Background/index.js.map
-//# sourceMappingURL=file://c:/git/svelte-extension/dist//Background/index.js.map
+console.log('%cBACKGROUND SCRIPT%c running (update 3)', style, '');
 
 chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
+  function (request, sender, sendResponse) {
     console.log(sender.tab ?
-                "from a content script:" + sender.tab.url :
-                "from the extension");
+      "from a content script:" + sender.tab.url :
+      "from the extension");
     if (request.greeting == "hello")
-      sendResponse({farewell: "goodbye"});
-  });
-
-chrome.webNavigation.onDOMContentLoaded.addListener(
-  function(details) {
-    console.log('onDOMContentLoaded details:', details);
+      sendResponse({ farewell: "goodbye" });
   }
-)
+);
+
+window['me'] = { getAssetsForUrl, injectAsset, getAsset, getInjectionsForUrl };

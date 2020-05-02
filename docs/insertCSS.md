@@ -27,7 +27,47 @@ let rxStackOverflow = /https:\/\/stackoverflow.com\//
 chrome.webNavigation.onCommitted.addListener(
     function(details) {
         if (rxStackOverflow.test(details.url)) {
-            let cssDetails = { cssOrigin: 'user', code: '* { background-color: blue !important; color: white; }' };
+            let cssDetails = {
+                cssOrigin: 'user',
+                runAt: 'document_start',
+                code: '* { background-color: blue !important; color: white; }'
+            };
+            chrome.tabs.insertCSS(details.tabId, cssDetails, callback => { console.log('CSS INJECTED!'); });
+        };
+    }
+)
+```
+
+# Inject using file
+
+```js
+let rxStackOverflow = /https:\/\/stackoverflow.com\//
+chrome.webNavigation.onCommitted.addListener(
+    function(details) {
+        if (rxStackOverflow.test(details.url)) {
+            let cssDetails = {
+                cssOrigin: 'user',
+                runAt: 'document_start',
+                code: '* { background-color: blue !important; color: white; }'
+            };
+            chrome.tabs.insertCSS(details.tabId, cssDetails, callback => { console.log('CSS INJECTED!'); });
+        };
+    }
+)
+```
+
+# file: css
+
+```js
+let rxStackOverflow = /https:\/\/stackoverflow.com\//
+chrome.webNavigation.onCommitted.addListener(
+    function(details) {
+        if (rxStackOverflow.test(details.url)) {
+            let cssDetails = {
+                cssOrigin: 'user',
+                runAt: 'document_start',
+                file: 'Complete/StyleTest.css'
+            };
             chrome.tabs.insertCSS(details.tabId, cssDetails, callback => { console.log('CSS INJECTED!'); });
         };
     }

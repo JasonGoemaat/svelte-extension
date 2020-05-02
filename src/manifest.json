@@ -14,9 +14,9 @@
         "persistent": false
     },
     "icons": {
-      "16": "images/logo128.png",
-      "48": "images/logo128.png",
-      "128": "images/logo128.png"
+      "16": "images/icons/round_16.png",
+      "48": "images/icons/round_48.png",
+      "512": "images/icons/round_512.png"
     },
     "content_scripts": [
       {
