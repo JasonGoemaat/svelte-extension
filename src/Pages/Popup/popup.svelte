@@ -1,38 +1,49 @@
 <script>
-    import { backgroundPage } from '../../stores/background-page';
-    import { currentTab } from '../../stores/current-tab';
-    import store from './store';
+    import { actions, dispatch, store } from './store';
 
-    let injections = null;
-    $: window.store = $store; // this works
-    $: injections = store ? store.injections : null; // this works
-    $: window.injections = $store ? $store.injections : null; // this does not
-    store.subscribe(s => { // error: not a function
-        if (s) {
-            console.log('store from subscription:', s);
-            injections = s.injections;
-        }
-    });
-    window.popup = this;
+    Object.assign(window, { actions, dispatch, store });
+    dispatch(actions.init());
+
+    const getAddInjectionLink = () => {
+        return chrome.extension.getURL(`html/injections.html#/add`);
+    }
 </script>
 
-<h2>Injections</h2>
+<h2>Injections - <a target="_blank" href={getAddInjectionLink()}>add</a></h2>
 
-{#if injections}
-    {#if injections.length > 0}
-        <ul>
-            {#each $injections as injection (injection.name)}
-	            <li>{ injection.name }</li>>
+{#if $store.loading}
+    Loading...
+{:else}
+    {#if $store.injections && $store.injections.length > 0}
+        <ul class="injections">
+            {#each $store.injections as injection (injection.name)}
+	            <li>
+                    <a target="_blank" href={chrome.extension.getURL(`/injection.html#/injections/edit/${injection.name}`)}>{ injection.name }</a>
+                    <button>remove</button>
+                </li>
             {/each}
         </ul>
     {:else}
         <p>No injections</p>
     {/if}
-{:else}
-    Loading...
 {/if}
 
-<p>
-Injections:
-</p>
-<pre>{JSON.stringify(injections)}</pre>
+<p>Injections:</p>
+<pre>{JSON.stringify($store.injections)}</pre>
+
+<style>
+h2 {
+    white-space: nowrap;
+}
+
+button {
+    margin-left: 1em;
+}
+    /* ul.injections {
+        font-size: 2em;
+    } */
+
+    /* ul.injections > li {
+
+    } */
+</style>

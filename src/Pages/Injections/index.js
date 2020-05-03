@@ -1,6 +1,6 @@
 console.log('injection - index.js');
 
-import App from './newtab.svelte';
+import App from './Injections.svelte';
 
 const app = new App({
   target: document.body,

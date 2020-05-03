@@ -4,24 +4,31 @@
   "description": "Sample Chrome extension using svelt",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel src/index.html",
+    "test": "jest",
+    "start": "parcel src/html/index.html",
     "prebuild": "rimraf dist",
-    "build": "parcel build src/manifest.json src/index.html src/js/* src/css/*",
-    "build-no-sourcemap": "parcel build --no-source-maps src/manifest.json src/index.html",
-    "watch": "parcel watch --no-hmr src/manifest.json src/index.html src/js/* src/css/*"
+    "build": "parcel build src/manifest.json src/js/* src/css/* src/html/*",
+    "build-no-sourcemap": "parcel build --no-source-maps src/manifest.json src/js/* src/css/* src/html/*",
+    "watch": "parcel watch --no-hmr src/manifest.json src/js/* src/css/* src/html/* src/editor/*",
+    "jest": "jest",
+    "build-workers": "parcel build node_modules/monaco-editor/esm/vs/language/typescript/typescript.worker.js node_modules/monaco-editor/esm/vs/language/css/css.worker.js --no-source-maps --log-level 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/chrome": "^0.0.106",
+    "@types/jest": "^25.2.1",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-svelte": "^4.0.6",
     "parcel-plugin-web-extension": "^1.6.1",
     "sass": "^1.26.5",
-    "svelte": "^3.21.0",
-    "typescript": "^3.8.3",
-    "@types/chrome": "^0.0.106"
+    "svelte": "^3.5.0",
+    "ts-jest": "^25.4.0",
+    "typescript": "^3.8.3"
   },
   "dependencies": {
+    "jest": "^25.5.4",
+    "monaco-editor": "^0.20.0",
+    "svelte-spa-router": "^2.1.0"
   }
 }

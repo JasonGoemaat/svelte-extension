@@ -1,11 +1,10 @@
-import { getAsset, getAssetsForUrl, getInjectionsForUrl, injectAsset } from "./sitedb";
+import { SiteDb } from "./db/SiteDb";
 
-// but it will let you compile it.
-const style: string = 'background-color: blue; color: white; font-size: large; border-radius: 9px; padding: 2px 6px';
+const logHeaderStyle: string = 'background-color: blue; color: white; font-size: large; border-radius: 9px; padding: 2px 6px';
 
 import './injections.ts'
 
-console.log('%cBACKGROUND SCRIPT%c running (update 3)', style, '');
+console.log('%cBACKGROUND SCRIPT%c running (update 3)', logHeaderStyle, '');
 
 chrome.runtime.onMessage.addListener(
   function (request, sender, sendResponse) {
@@ -17,4 +16,4 @@ chrome.runtime.onMessage.addListener(
   }
 );
 
-window['me'] = { getAssetsForUrl, injectAsset, getAsset, getInjectionsForUrl };
+window['db'] = new SiteDb();

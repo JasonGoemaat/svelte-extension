@@ -1,52 +1,19 @@
-export interface Asset {
-    name: string,
-    type: string, // 'css' or 'js'
-    url: string, // set for internal, cannot be deleted
-    code: string
-}
+import { Asset } from './db/Asset'
+import { Injection } from './db/Injection'
+import { StaticAssets } from './db/StaticAssets';
 
-export interface Injection {
-    name: string,
-    rx: string,
-    assets: string[]
-}
+const staticAssets = new StaticAssets();
 
-const staticAssets: Map<string, Asset> = new Map<string, Asset>();
-
-staticAssets['util'] = {
-    name: 'util',
-    type: 'js',
-    url: 'js/util.js'
-}
-
-staticAssets['sample-script'] = {
-    name: 'sample-script',
-    type: 'js',
-    code: 'console.log("injected sample-script!")'
-}
-
-staticAssets['blue'] = {
-    name: 'blue2',
-    type: 'css',
-    code: '* { background-color: blue; color: white; }'
-}
-
-staticAssets['red'] = {
-    name: 'blue',
-    type: 'css',
-    url: 'css/red.css'
-}
-
-const injections = [
+const injections: Injection[] = <Injection[]>[
     {
         name: "stackoverflow",
-        rx: "'https:\/\/stackoverflow.com\/'",
+        rx: "https:\/\/stackoverflow.com\/",
         assets: ['util', 'red']
     }
 ]
 
 export const getInjectionsForUrl = (url: string): Injection[] {
-    return injections.filter(x => (new RegExp(x.rx).test));
+    return injections.filter(x => (new RegExp(x.rx)).test(url));
 }
 
 export const getAssetsForUrl = (url: string): string[] => {
@@ -67,10 +34,7 @@ export const injectAsset = (tabId: number, asset: Asset) => {
     if (asset.type === 'css') {
         const cssDetails: chrome.tabs.InjectDetails = {
             cssOrigin: 'user',
-            runAt: 'document_end',
-            // document_start
-            // document_idle
-            // document_end
+            runAt: 'document_end', // document_start, document_idle, document_end
         };
         if (asset.url) {
             console.log('cs asset file:', asset.url);
