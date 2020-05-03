@@ -1,18 +1,31 @@
 <script>
   import { onMount } from "svelte";
   import { querystring } from "svelte-spa-router";
-  import * as monaco from "monaco-editor";
+  //import * as monaco from "monaco-editor";
+  import { editor as meditor } from 'monaco-editor';
 
   export let params = {};
 
+  let query = $querystring.split('&').reduce((acc, x) => {
+    let parts = x.split('=');
+    if (parts.length === 1) {
+      acc[parts[0]] = true;
+    } else if (parts.length > 1) {
+      acc[parts[0]] = decodeURIComponent(parts.slice(1).join('='));
+    }
+    return acc
+  }, {});
+
+  console.log('query:', query);
+
   import { actions, dispatch, store } from "../../Popup/store";
 
-  let which = "Js";
+  let which = "Settings";
   let js = `function(messge) {
-  alert(message);
+  console.log(message);
 }
 `;
-  let css = `p {
+  let css = `p.sample {
   color: blue;
 }
 `;
@@ -43,23 +56,26 @@
     );
 
     if (!editor) {
-      jsModel = monaco.editor.createModel(js, 'typescript');
-      cssModel = monaco.editor.createModel(css, 'css');
+      jsModel = meditor.createModel(js, 'typescript');
+      cssModel = meditor.createModel(css, 'css');
 
-      editor = monaco.editor.create(document.getElementById("container"), {
+      editor = meditor.create(document.getElementById('container'), {
         automaticLayout: true,
       });
 
-      select("Js");
+      select('Settings');
     }
   });
 
   const select = w => {
+    if (which === w) return;
     which = w;
-    if (w === "Js") {
+    if (w === 'Js') {
       editor.setModel(jsModel);
-    } else if (w === "Css") {
+    } else if (w === 'Css') {
       editor.setModel(cssModel);
+    } else if (w === 'Settings') {
+      console.log('settings');
     }
   };
 
@@ -86,24 +102,27 @@
   div.header {
     flex-basis: auto; /* default */
     flex: 0 1 auto;
-    border-bottom: solid 2px black;
+    border-bottom: solid 1px black;
   }
 
   div.tab {
-    border: solid 2px black;
-    border-radius: 10px 10px 0 0;
+    border: solid 1px black;
+    border-radius: 6px 6px 0 0;
     display: inline-block;
-    padding: 5px 15px 5px 15px;
+    padding: 4px 10px 4px 10px;
     box-sizing: border-box;
     position: relative;
-    top: 2px;
+    top: 1px;
     border-collapse: collapse;
     cursor: pointer;
+    min-width: 80px;
   }
 
   div.tab.active {
-    background-color: #55c;
-    color: white;
+    /* background-color: #55c; */
+    /* color: white; */
+    border-bottom-color: white;
+    font-weight: bold;
   }
 
   div.tab.first {
@@ -113,11 +132,18 @@
   div.editor {
     flex: 1 1 auto;
   }
+
+  div.hidden {
+    display: none;
+  }
 </style>
 
 <div class="main">
   <div class="header">
     <h1>Add Injection</h1>
+
+    <p>querystring: { JSON.stringify($querystring) }</p>
+    <p>query: { JSON.stringify(query) }</p>
 
     {#if $store.loading}
       <p>Loading...</p>
@@ -127,6 +153,12 @@
 
     <div
       class="tab first"
+      class:active={which === 'Settings'}
+      on:click={() => select('Settings')}>
+      Settings
+    </div>
+    <div
+      class="tab"
       class:active={which === 'Js'}
       on:click={() => select('Js')}>
       Js
@@ -139,5 +171,6 @@
     </div>
   </div>
 
-  <div class="editor" id="container" />
+  <div class="editor" id="container" class:hidden={which !== 'Js' && which !== 'Css'} />
+  <div class="settings" class:hidden={which !== 'settings'}><h1>Settings</h1></div>
 </div>

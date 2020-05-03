@@ -1,5 +1,15 @@
 import { readable } from 'svelte/store'
 
+const ENABLE_DEBUG = false;
+
+let debug = {
+    log: (...args) => {
+        if (ENABLE_DEBUG) {
+            console.log(...args);
+        }
+    }
+}
+
 let setter
 
 let state = {
@@ -32,16 +42,16 @@ export const actions = {
 }
 
 export const dispatch = action => {
-    console.log('dispatch:', action);
+    debug.log('dispatch:', action);
     let newState = reducer(state, action);
     if (newState !== state) {
-        console.log('\tOld state:', state);
-        console.log('\tNew state:', newState);
+        debug.log('\tOld state:', state);
+        debug.log('\tNew state:', newState);
         state = newState;
         setter(state);
         window['state'] = state;
     } else {
-        console.log('\tNO STATE CHANGE');
+        debug.log('\tNO STATE CHANGE');
     }
 }
 
@@ -61,7 +71,7 @@ const initialize = () => {
 }
 
 const reducer = (state, action) => {
-    console.log('reducer (state, action)', state, action);
+    debug.log('reducer (state, action)', state, action);
     switch (action.type) {
         case 'INIT':
             initialize();
