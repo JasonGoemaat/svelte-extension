@@ -1,2 +1,22 @@
-body {
+div.flex-form {
+  div.flex-form-row {
+    margin-top: 1em;
+    display:flex;
+    justify-content: start;
+    align-items: center;
+
+    div.flex-form-label {
+      margin-left: 1em;
+      width: 100px;
+      display: flex;
+      align-items: center;
+    }
+
+    div.flex-form-value {
+      margin-left: 1em;
+      min-width: 200px;
+      display: flex;
+      align-items: center;
+    }
+  }
 }

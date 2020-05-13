@@ -2,21 +2,23 @@
   import { onMount } from "svelte";
   import { querystring } from "svelte-spa-router";
   //import * as monaco from "monaco-editor";
-  import { editor as meditor } from 'monaco-editor';
+  import { editor as meditor } from "monaco-editor";
 
   export let params = {};
 
-  let query = $querystring.split('&').reduce((acc, x) => {
-    let parts = x.split('=');
+  let value, match;
+
+  let query = $querystring.split("&").reduce((acc, x) => {
+    let parts = x.split("=");
     if (parts.length === 1) {
       acc[parts[0]] = true;
     } else if (parts.length > 1) {
-      acc[parts[0]] = decodeURIComponent(parts.slice(1).join('='));
+      acc[parts[0]] = decodeURIComponent(parts.slice(1).join("="));
     }
-    return acc
+    return acc;
   }, {});
 
-  console.log('query:', query);
+  console.log("query:", query);
 
   import { actions, dispatch, store } from "../../Popup/store";
 
@@ -32,14 +34,14 @@
 
   self.MonacoEnvironment = {
     getWorkerUrl: function(moduleId, label) {
-      if (label === 'css') {
-        return '/editor/css.worker.js';
+      if (label === "css") {
+        return "/editor/css.worker.js";
       }
-      if (label === 'typescript' || label === 'javascript') {
-        return '/editor/ts.worker.js';
+      if (label === "typescript" || label === "javascript") {
+        return "/editor/ts.worker.js";
       }
-      return '/editor/editor.worker.js';
-    },
+      return "/editor/editor.worker.js";
+    }
   };
 
   dispatch(actions.init());
@@ -56,26 +58,26 @@
     );
 
     if (!editor) {
-      jsModel = meditor.createModel(js, 'typescript');
-      cssModel = meditor.createModel(css, 'css');
+      jsModel = meditor.createModel(js, "typescript");
+      cssModel = meditor.createModel(css, "css");
 
-      editor = meditor.create(document.getElementById('container'), {
-        automaticLayout: true,
+      editor = meditor.create(document.getElementById("container"), {
+        automaticLayout: true
       });
 
-      select('Settings');
+      select("Settings");
     }
   });
 
   const select = w => {
     if (which === w) return;
     which = w;
-    if (w === 'Js') {
+    if (w === "Js") {
       editor.setModel(jsModel);
-    } else if (w === 'Css') {
+    } else if (w === "Css") {
       editor.setModel(cssModel);
-    } else if (w === 'Settings') {
-      console.log('settings');
+    } else if (w === "Settings") {
+      console.log("settings");
     }
   };
 
@@ -142,8 +144,9 @@
   <div class="header">
     <h1>Add Injection</h1>
 
-    <p>querystring: { JSON.stringify($querystring) }</p>
-    <p>query: { JSON.stringify(query) }</p>
+    <p>querystring: {JSON.stringify($querystring)}</p>
+    <p>query: {JSON.stringify(query)}</p>
+    <p>which: {which}</p>
 
     {#if $store.loading}
       <p>Loading...</p>
@@ -172,5 +175,26 @@
   </div>
 
   <div class="editor" id="container" class:hidden={which !== 'Js' && which !== 'Css'} />
-  <div class="settings" class:hidden={which !== 'settings'}><h1>Settings</h1></div>
+  <div class="settings" class:hidden={which !== 'Settings'}>
+    <div class="flex-form">
+      <div class="flex-form-row">
+        <div class="flex-form-label">Url:</div>
+        <div class="flex-form-value">
+          <input bind-value="url" />
+        </div>
+      </div>
+      <div class="flex-form-row">
+        <div class="flex-form-label">RegEx:</div>
+        <div class="flex-form-value">
+          <input bind-value="regex" />
+        </div>
+      </div>
+      <div class="flex-form-row">
+        <div class="flex-form-label">Match:</div>
+        <div class="flex-form-value">
+          <span>{match}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
