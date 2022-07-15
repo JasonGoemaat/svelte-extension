@@ -22,7 +22,7 @@
     "parcel-plugin-svelte": "^4.0.6",
     "parcel-plugin-web-extension": "^1.6.1",
     "sass": "^1.26.5",
-    "svelte": "^3.5.0",
+    "svelte": "^3.49.0",
     "ts-jest": "^25.4.0",
     "typescript": "^3.8.3"
   },
